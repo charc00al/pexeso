@@ -1,0 +1,24 @@
+
+* {
+    background-color: rgb(28, 26, 26);
+    font-family: monospace;
+}
+
+h1 {
+    font-size: 4em;
+    color: darksalmon;
+}
+
+.main {
+    margin-top: 10vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.game-board {
+    width: 50vh;
+    height: 50vh;
+    background-color: darkolivegreen;
+    
+}
