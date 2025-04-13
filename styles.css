@@ -10,24 +10,29 @@ h1 {
 }
 
 .main {
-    margin-top: 10vh;
+    margin-top: 5vh;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
 }
+
 .game-board {
-    width: 50vh;
-    height: 50vh;
+    width: 70vh;
+    height: 70vh;
     background-color: darkolivegreen;
     display: grid;
-    grid-template-columns: repeat(5, auto);
-    grid-template-rows: repeat(4, auto);
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(3, 1fr);
     gap: 5px;
-    
 }
 
 .card {
     border: 3px solid;
     border-color: darksalmon;
+    background-image: url(./pictures/natsu.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
 }
+
+
