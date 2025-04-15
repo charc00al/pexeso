@@ -7,6 +7,7 @@
 h1 {
     font-size: 4em;
     color: darksalmon;
+    margin: 0;
 }
 
 .main {
@@ -20,7 +21,6 @@ h1 {
 .game-board {
     width: 70vh;
     height: 70vh;
-    background-color: darkolivegreen;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows: repeat(3, 1fr);
@@ -30,9 +30,30 @@ h1 {
 .card {
     border: 3px solid;
     border-color: darksalmon;
-    background-image: url(./pictures/natsu.jpg);
+
+}
+
+.card-front {
     background-size: cover;
     background-repeat: no-repeat;
 }
 
+.card-back {
+    background-image: url(./pictures/backside.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.new-game-btn {
+    background-color: darksalmon;
+    width: 100px;
+    height: 30px;
+    border-radius: 3px;
+    margin: 2em;
+    border: none;
+}
+
+.new-game-btn:active {
+    color: darkolivegreen;
+}
 
