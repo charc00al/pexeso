@@ -30,18 +30,12 @@ h1 {
 .card {
     border: 3px solid;
     border-color: darksalmon;
-
-}
-
-.card-front {
     background-size: cover;
     background-repeat: no-repeat;
 }
 
 .card-back {
     background-image: url(./pictures/backside.jpg);
-    background-size: cover;
-    background-repeat: no-repeat;
 }
 
 .new-game-btn {

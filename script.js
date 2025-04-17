@@ -3,28 +3,19 @@
 let gameBoard = document.querySelector(".game-board");
 let gameBtn = document.querySelector(".new-game-btn")
 
+
+// || CREATE DOM CARDS
+
 // creating card deck
 let halfCardDeck = ["natsu", "erza", "frieren", "tiger", "bear", "flower"];
 let cardDeck = halfCardDeck.concat(halfCardDeck);
 
-cardDeck.forEach(makeNewCard)
+cardDeck.forEach(makeNewCard);
 
-
-gameBtn.addEventListener("click", function() {
-    shuffleDeck();
-});
-
-// create cards on a board
-function makeNewCard(name) {
-    // create card element
+// show cards on a board
+function makeNewCard() {
     let newCard = document.createElement("div");
-
-    // add class "card" and image
-    newCard.classList.add("card");
-    newCard.classList.add("card-front");
-    newCard.style.backgroundImage = "url(./pictures/" + name + ".jpg)";
-
-    // insert card into game board div
+    newCard.classList.add("card", "card-back", "card-front")
     gameBoard.appendChild(newCard);
 }
 
@@ -34,5 +25,23 @@ function shuffleDeck() {
         let j = Math.floor(Math.random() * (i + 1));
         [cardDeck[i], cardDeck[j]] = [cardDeck[j], cardDeck[i]];
     }
-    console.log(cardDeck)
+}
+
+// || START GAME 
+
+const cardsFront = document.querySelectorAll(".card-front");
+
+// start button
+gameBtn.addEventListener("click", function() {
+    shuffleDeck();
+    addPicture();
+});
+
+// add shuffled pictures and datatype
+function addPicture() {
+    cardsFront.forEach((card, index) => {
+        let name = cardDeck[index];
+        card.dataset.picture = name;
+        card.style.backgroundImage = "url(./pictures/" + name + ".jpg)";
+    });
 }
