@@ -1,23 +1,31 @@
 
-// DOM variables
-let gameBoard = document.querySelector(".game-board");
-let gameBtn = document.querySelector(".new-game-btn")
-
-
 // || CREATE DOM CARDS
 
-// creating card deck
+let gameBoard = document.querySelector(".game-board");
+
+// create a card deck
 let halfCardDeck = ["natsu", "erza", "frieren", "tiger", "bear", "flower"];
 let cardDeck = halfCardDeck.concat(halfCardDeck);
 
 cardDeck.forEach(makeNewCard);
 
-// show cards on a board
+// show cards on the board
 function makeNewCard() {
     let newCard = document.createElement("div");
     newCard.classList.add("card", "card-back", "card-front")
     gameBoard.appendChild(newCard);
 }
+
+// || START GAME 
+
+const gameBtn = document.querySelector(".new-game-btn");
+const cardsFront = document.querySelectorAll(".card-front");
+
+// start button
+gameBtn.addEventListener("click", function() {
+    shuffleDeck();
+    addPicture();
+});
 
 // shuffle deck of cards
 function shuffleDeck() {
@@ -27,21 +35,33 @@ function shuffleDeck() {
     }
 }
 
-// || START GAME 
-
-const cardsFront = document.querySelectorAll(".card-front");
-
-// start button
-gameBtn.addEventListener("click", function() {
-    shuffleDeck();
-    addPicture();
-});
-
-// add shuffled pictures and datatype
+// add shuffled pictures and dataset
 function addPicture() {
-    cardsFront.forEach((card, index) => {
+    cardsFront.forEach((cardFront, index) => {
         let name = cardDeck[index];
-        card.dataset.picture = name;
-        card.style.backgroundImage = "url(./pictures/" + name + ".jpg)";
+        cardFront.dataset.picture = name;
+        cardFront.style.backgroundImage = "url(./pictures/" + name + ".jpg)";
     });
 }
+
+// MATCH PAIRS
+
+const cards = document.querySelectorAll(".card");
+let pair = [];
+
+gameBoard.addEventListener("click", function(event) {
+    let clickedCard = event.target.dataset.picture;
+    if (event.target.matches(".card")) {
+        pair.push(clickedCard);
+    }
+
+    if (pair.length == 2) {
+        console.log(pair);
+        if (pair[0] == pair[1]) {
+            console.log("MATCH");
+        }
+        pair = [];
+    }
+});
+
+
