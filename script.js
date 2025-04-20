@@ -12,7 +12,7 @@ cardDeck.forEach(makeNewCard);
 // show cards on the board
 function makeNewCard() {
     let newCard = document.createElement("div");
-    newCard.classList.add("card");
+    newCard.classList.add("card", "card-back");
     gameBoard.appendChild(newCard);
 }
 
@@ -25,6 +25,7 @@ const cards = document.querySelectorAll(".card");
 gameBtn.addEventListener("click", function() {
     shuffleDeck();
     addPicture();
+    matchAndFlip();
 });
 
 // shuffle deck of cards
@@ -35,7 +36,7 @@ function shuffleDeck() {
     }
 }
 
-// add shuffled pictures and dataset value (name of the picture)
+// add shuffled pictures (with dataset value = name of the picture)
 function addPicture() {
     cards.forEach((card, index) => {
         let name = cardDeck[index];
@@ -47,39 +48,44 @@ function addPicture() {
 // || MATCH PAIRS & FLIP CARDS
 
 let pair = [];
+let pairedCards = [];
 
-cards.forEach((card) => {
+function matchAndFlip() {
+    cards.forEach((card) => {
+        card.addEventListener("click", function() {
+            console.log(pairedCards);
 
-    card.addEventListener("click", function() {
-        
-        let clickedCard = card.dataset.picture;
+            pairedCards.push(card);
+            card.classList.toggle("card-back");
 
-        if (!card.hasAttribute("data-id")) {
-            pair.push(clickedCard);
-            card.setAttribute("data-id", "just-clicked");
-        }
-        console.log(pair);
-
-        if (pair.length == 2) {
-            cards.forEach((picked) => {
-                picked.removeAttribute("data-id");
-            })
-            
-            if (pair[0] == pair[1]) {
-                console.log("MATCH");
+            let clickedCard = card.dataset.picture;
+    
+            if (!card.hasAttribute("data-id")) {
+                pair.push(clickedCard);
+                card.setAttribute("data-id", "just-clicked");
             }
-            pair = [];
-        }
+    
+            //console.log(pair);
+            if (pair.length == 2) {
+                cards.forEach((picked) => {
+                    picked.removeAttribute("data-id");
+                })
+    
+                if (pair[0] == pair[1]) {
+                    console.log("MATCH");
+                    // hide matched cards
+                    pairedCards.forEach((paired) => {
+                        paired.style.visibility="hidden";
+                    })
+            }
+                pair = [];
+                pairedCards = [];
+                //card.classList.add("card-back");
+        }})
     })
-})
-
-
-
-/*
-
-/* function flipCard(event) {
-    let pickedCard = event.target;
-    pickedCard.classList.toggle("card-back");
 }
- */
+
+
+
+
 
