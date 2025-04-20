@@ -47,13 +47,15 @@ function addPicture() {
 
 // || MATCH PAIRS & FLIP CARDS
 
+// arr to store data-picture (name of card img)
 let pair = [];
+
+// arr to store cards (divs)
 let pairedCards = [];
 
 function matchAndFlip() {
     cards.forEach((card) => {
         card.addEventListener("click", function() {
-            console.log(pairedCards);
 
             pairedCards.push(card);
             card.classList.toggle("card-back");
@@ -65,7 +67,6 @@ function matchAndFlip() {
                 card.setAttribute("data-id", "just-clicked");
             }
     
-            //console.log(pair);
             if (pair.length == 2) {
                 cards.forEach((picked) => {
                     picked.removeAttribute("data-id");
@@ -77,7 +78,7 @@ function matchAndFlip() {
                     pairedCards.forEach((paired) => {
                         paired.style.visibility="hidden";
                     })
-            }
+                }
                 pair = [];
                 pairedCards = [];
                 //card.classList.add("card-back");
