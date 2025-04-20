@@ -12,16 +12,16 @@ cardDeck.forEach(makeNewCard);
 // show cards on the board
 function makeNewCard() {
     let newCard = document.createElement("div");
-    newCard.classList.add("card", "card-back", "card-front")
+    newCard.classList.add("card");
     gameBoard.appendChild(newCard);
 }
 
 // || START GAME 
 
 const gameBtn = document.querySelector(".new-game-btn");
-const cardsFront = document.querySelectorAll(".card-front");
+const cards = document.querySelectorAll(".card");
 
-// start button
+// event: start button
 gameBtn.addEventListener("click", function() {
     shuffleDeck();
     addPicture();
@@ -35,33 +35,51 @@ function shuffleDeck() {
     }
 }
 
-// add shuffled pictures and dataset
+// add shuffled pictures and dataset value (name of the picture)
 function addPicture() {
-    cardsFront.forEach((cardFront, index) => {
+    cards.forEach((card, index) => {
         let name = cardDeck[index];
-        cardFront.dataset.picture = name;
-        cardFront.style.backgroundImage = "url(./pictures/" + name + ".jpg)";
+        card.dataset.picture = name;
+        card.style.backgroundImage = "url(./pictures/" + name + ".jpg)";
     });
 }
 
-// MATCH PAIRS
+// || MATCH PAIRS & FLIP CARDS
 
-const cards = document.querySelectorAll(".card");
 let pair = [];
 
-gameBoard.addEventListener("click", function(event) {
-    let clickedCard = event.target.dataset.picture;
-    if (event.target.matches(".card")) {
-        pair.push(clickedCard);
-    }
+cards.forEach((card) => {
 
-    if (pair.length == 2) {
-        console.log(pair);
-        if (pair[0] == pair[1]) {
-            console.log("MATCH");
+    card.addEventListener("click", function() {
+        
+        let clickedCard = card.dataset.picture;
+
+        if (!card.hasAttribute("data-id")) {
+            pair.push(clickedCard);
+            card.setAttribute("data-id", "just-clicked");
         }
-        pair = [];
-    }
-});
+        console.log(pair);
 
+        if (pair.length == 2) {
+            cards.forEach((picked) => {
+                picked.removeAttribute("data-id");
+            })
+            
+            if (pair[0] == pair[1]) {
+                console.log("MATCH");
+            }
+            pair = [];
+        }
+    })
+})
+
+
+
+/*
+
+/* function flipCard(event) {
+    let pickedCard = event.target;
+    pickedCard.classList.toggle("card-back");
+}
+ */
 

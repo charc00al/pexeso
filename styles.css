@@ -35,7 +35,7 @@ h1 {
 }
 
 .card-back {
-    background-image: url(./pictures/backside.jpg);
+    background-image: url(./pictures/backside.jpg) !important;
 }
 
 .new-game-btn {
