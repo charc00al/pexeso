@@ -33,8 +33,9 @@ gameBtn.addEventListener("click", function() {
     addPicture();
     cards.forEach((card) => {
         card.classList.add("card-back");
+        card.style.visibility="visible";
         card.addEventListener("click", toggleCard);
-        card.addEventListener("click", flipCards);
+        card.addEventListener("click", flipAndMatch);
     })
 });
 
@@ -59,34 +60,59 @@ function addPicture() {
 
 let clickedCards = [];
 
-function flipCards() {
+function flipAndMatch() {
 
-    // if card hasn't been clicked ...
     if (!this.hasAttribute("data-id")) {
-        // add card to the array
         clickedCards.push(this);
         // card can be toggled again next round
         this.classList.remove("card-back");
         // card cannot be toggled this round
         this.removeEventListener("click", toggleCard);
         // add tag to know "clicked" cards
-        this.setAttribute("data-id", "just-clicked");
+        this.setAttribute("data-id", "picked");
     }
+
+    // matching cards
+    if (clickedCards.length == 2) {
+        let firstPicture = clickedCards[0].dataset.picture;
+        let secondPicture = clickedCards[1].dataset.picture;
     
+        // check for match
+        if (firstPicture == secondPicture) {
+            console.log("MATCH");
+            // hide matched cards
+            clickedCards.forEach((matched) => {
+                setTimeout(() => {
+                    matched.style.visibility="hidden";
+                }, 500);
+            })
+        // flip chosen pair of cards after few seconds
+        } /* else {
+            cards.forEach((card) => {
+                setTimeout(() => {
+                    card.classList.add("card-back");
+                }, 1000);
+            })
+        }  */
+    } 
+
+    // hiding first two cards and reseting state
     if (clickedCards.length == 3) {
-        // if player clicks on 3rd card, hide the first 2 & don't allow double click on card
         for (i = 0; i <= 1; i++) {
-            clickedCards[i].classList.add("card-back");
-            clickedCards[i].addEventListener("click", toggleCard); 
-            clickedCards[i].removeAttribute("data-id");
+            reset(clickedCards[i]);
         }
         // remove first 2 cards from the array
         clickedCards.splice(0, 2);
     }
     console.log(clickedCards);
- 
 }
 
-
+// reset cards to use them again
+function reset(chosenPair) {
+    chosenPair.classList.add("card-back");
+    // don't allow double click on card
+    chosenPair.addEventListener("click", toggleCard); 
+    chosenPair.removeAttribute("data-id");
+}
 
 
