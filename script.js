@@ -14,12 +14,11 @@ function makeNewCard() {
     let newCard = document.createElement("div");
     // add card back later
     newCard.classList.add("card");
-    newCard.addEventListener("click", flipCard);
     gameBoard.appendChild(newCard);
 }
 
 // toggle flip of the cards' sides
-function flipCard() {
+function toggleCard() {
     this.classList.toggle("card-back");
 }
 
@@ -32,7 +31,11 @@ const cards = document.querySelectorAll(".card");
 gameBtn.addEventListener("click", function() {
     shuffleDeck();
     addPicture();
-  
+    cards.forEach((card) => {
+        card.classList.add("card-back");
+        card.addEventListener("click", toggleCard);
+        card.addEventListener("click", flipCards);
+    })
 });
 
 // shuffle deck of cards
@@ -54,18 +57,35 @@ function addPicture() {
 
 // || MATCH PAIRS & FLIP CARDS
 
-/* function matchAndFlip() {
-    cards.forEach((card) => {
-        card.classList.add("card-back");
-        card.addEventListener("click", function() {
-            card.classList.toggle("card-back");
-        })
-    })
+let clickedCards = [];
 
-} */
+function flipCards() {
 
-
-
+    // if card hasn't been clicked ...
+    if (!this.hasAttribute("data-id")) {
+        // add card to the array
+        clickedCards.push(this);
+        // card can be toggled again next round
+        this.classList.remove("card-back");
+        // card cannot be toggled this round
+        this.removeEventListener("click", toggleCard);
+        // add tag to know "clicked" cards
+        this.setAttribute("data-id", "just-clicked");
+    }
+    
+    if (clickedCards.length == 3) {
+        // if player clicks on 3rd card, hide the first 2 & don't allow double click on card
+        for (i = 0; i <= 1; i++) {
+            clickedCards[i].classList.add("card-back");
+            clickedCards[i].addEventListener("click", toggleCard); 
+            clickedCards[i].removeAttribute("data-id");
+        }
+        // remove first 2 cards from the array
+        clickedCards.splice(0, 2);
+    }
+    console.log(clickedCards);
+ 
+}
 
 
 
