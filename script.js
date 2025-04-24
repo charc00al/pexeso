@@ -27,18 +27,6 @@ function toggleCard() {
 const gameBtn = document.querySelector(".new-game-btn");
 const cards = document.querySelectorAll(".card");
 
-// event: start button
-gameBtn.addEventListener("click", function() {
-    shuffleDeck();
-    addPicture();
-    cards.forEach((card) => {
-        card.classList.add("card-back");
-        card.style.visibility="visible";
-        card.addEventListener("click", toggleCard);
-        card.addEventListener("click", flipAndMatch);
-    })
-});
-
 // shuffle deck of cards
 function shuffleDeck() {
     for (let i = cardDeck.length - 1; i >= 1; i--) {
@@ -56,9 +44,23 @@ function addPicture() {
     });
 }
 
+// event: start button
+gameBtn.addEventListener("click", function() {
+    shuffleDeck();
+    addPicture();
+    clickedCards = [];
+
+    cards.forEach((card) => {
+        card.style.visibility="visible";
+        card.addEventListener("click", flipAndMatch);
+        resetCard(card);
+    })
+});
+
 // || MATCH PAIRS & FLIP CARDS
 
 let clickedCards = [];
+let timeoutID = null;
 
 function flipAndMatch() {
 
@@ -86,33 +88,22 @@ function flipAndMatch() {
                     matched.style.visibility="hidden";
                 }, 500);
             })
-        // flip chosen pair of cards after few seconds
-        } /* else {
-            cards.forEach((card) => {
-                setTimeout(() => {
-                    card.classList.add("card-back");
-                }, 1000);
-            })
-        }  */
+        } 
     } 
 
     // hiding first two cards and reseting state
     if (clickedCards.length == 3) {
         for (i = 0; i <= 1; i++) {
-            reset(clickedCards[i]);
+            resetCard(clickedCards[i]);
         }
-        // remove first 2 cards from the array
+        // remove first 2 cards from the array / or use pop for each card? 
         clickedCards.splice(0, 2);
     }
-    console.log(clickedCards);
 }
 
-// reset cards to use them again
-function reset(chosenPair) {
-    chosenPair.classList.add("card-back");
-    // don't allow double click on card
-    chosenPair.addEventListener("click", toggleCard); 
-    chosenPair.removeAttribute("data-id");
+function resetCard(x) {
+    x.classList.add("card-back");
+    x.addEventListener("click", toggleCard);
+    x.removeAttribute("data-id");
 }
-
 
