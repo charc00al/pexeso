@@ -88,15 +88,25 @@ function flipAndMatch() {
                     matched.style.visibility="hidden";
                 }, 500);
             })
-        } 
+        // set timer for 2 cards to dissapear
+        } else {
+            timeoutID = setTimeout(() => {
+                resetCard(clickedCards[0]);
+                resetCard(clickedCards[1]);
+                clickedCards = [];
+                timeoutID = null;
+            }, 1000);
+        }
     } 
 
     // hiding first two cards and reseting state
     if (clickedCards.length == 3) {
-        for (i = 0; i <= 1; i++) {
-            resetCard(clickedCards[i]);
+        if (timeoutID) {
+            clearTimeout(timeoutID) 
+            timeoutID = null;
         }
-        // remove first 2 cards from the array / or use pop for each card? 
+        resetCard(clickedCards[0]);
+        resetCard(clickedCards[1]);
         clickedCards.splice(0, 2);
     }
 }
