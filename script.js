@@ -26,6 +26,8 @@ function toggleCard() {
 
 const gameBtn = document.querySelector(".new-game-btn");
 const cards = document.querySelectorAll(".card");
+let movesText = document.querySelector(".moves");
+let mismatchesText = document.querySelector(".mismatches");
 
 // shuffle deck of cards
 function shuffleDeck() {
@@ -49,18 +51,24 @@ gameBtn.addEventListener("click", function() {
     shuffleDeck();
     addPicture();
     clickedCards = [];
+    moves = 0;
+    matches = 0;
+    showScore();
 
     cards.forEach((card) => {
         card.style.visibility="visible";
         card.addEventListener("click", flipAndMatch);
         resetCard(card);
     })
+
 });
 
 // || MATCH PAIRS & FLIP CARDS
 
 let clickedCards = [];
 let timeoutID = null;
+let moves = 0;
+let matches = 0;
 
 function flipAndMatch() {
 
@@ -76,12 +84,14 @@ function flipAndMatch() {
 
     // matching cards
     if (clickedCards.length == 2) {
+        moves = ++moves;
+
         let firstPicture = clickedCards[0].dataset.picture;
         let secondPicture = clickedCards[1].dataset.picture;
     
         // check for match
         if (firstPicture == secondPicture) {
-            console.log("MATCH");
+            matches = ++matches;
             // hide matched cards
             clickedCards.forEach((matched) => {
                 setTimeout(() => {
@@ -109,6 +119,7 @@ function flipAndMatch() {
         resetCard(clickedCards[1]);
         clickedCards.splice(0, 2);
     }
+    showScore();
 }
 
 function resetCard(x) {
@@ -116,4 +127,13 @@ function resetCard(x) {
     x.addEventListener("click", toggleCard);
     x.removeAttribute("data-id");
 }
+
+// || Score 
+
+function showScore() {
+    movesText.innerHTML = "Moves: " + moves;
+    let mismatches = moves - matches;
+    mismatchesText.innerHTML = "Mismatches: " + mismatches;
+}
+
 

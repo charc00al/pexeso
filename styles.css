@@ -2,12 +2,19 @@
 * {
     background-color: rgb(28, 26, 26);
     font-family: monospace;
+    color: darksalmon;
 }
 
 h1 {
     font-size: 4em;
-    color: darksalmon;
     margin: 0;
+}
+
+.score {
+    margin: 1em;
+    margin-bottom: 2em;
+    display: flex;
+    gap: 4em;
 }
 
 .main {
@@ -40,6 +47,7 @@ h1 {
 
 .new-game-btn {
     background-color: darksalmon;
+    color: rgb(28, 26, 26);
     width: 100px;
     height: 30px;
     border-radius: 3px;
